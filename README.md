@@ -19,7 +19,7 @@ Add the provider to your Terraform config and run `terraform init`:
 terraform {
   required_providers {
     atlassian = {
-      source  = "surajsinghrajput/atlassian"
+      source  = "surajrajput1024/atlassian"
       version = "~> 0.1"
     }
   }
@@ -54,7 +54,7 @@ Create a [development overrides](https://developer.hashicorp.com/terraform/cli/c
 ```hcl
 provider_installation {
   dev_overrides {
-    "surajsinghrajput/atlassian" = "/path/to/terraform-provider-atlassian/repo"
+    "surajrajput1024/atlassian" = "/path/to/terraform-provider-atlassian/repo"
   }
   direct {}
 }

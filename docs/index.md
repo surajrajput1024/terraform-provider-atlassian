@@ -14,8 +14,8 @@ Use the Atlassian provider to manage Atlassian Cloud (Jira, and more) with Terra
 terraform {
   required_providers {
     atlassian = {
-      source  = "surajsinghrajput/atlassian"
-      version = ">= 0.1"
+      source  = "surajrajput1024/atlassian"
+      version = "0.0.5"
     }
   }
 }
