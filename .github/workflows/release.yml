@@ -12,6 +12,10 @@ jobs:
   release:
     name: Test and release
     runs-on: ubuntu-latest
+    env:
+      GH_PAT: ${{ secrets.GH_PAT }}
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      GPG_FINGERPRINT: ${{ secrets.GPG_FINGERPRINT }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -25,8 +29,6 @@ jobs:
 
       - name: Configure Git for private module
         if: env.GH_PAT != ''
-        env:
-          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           git config --global url."https://x-access-token:${GH_PAT}@github.com/".insteadOf "https://github.com/"
           git config --global url."https://x-access-token:${GH_PAT}@github.com/".insteadOf "git@github.com:"
@@ -37,9 +39,7 @@ jobs:
         run: go test -v -count=1 ./...
 
       - name: Import GPG key
-        if: ${{ secrets.GPG_PRIVATE_KEY != '' }}
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+        if: env.GPG_PRIVATE_KEY != ''
         run: |
           echo "$GPG_PRIVATE_KEY" | gpg --batch --import
 
@@ -49,13 +49,19 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GPG_FINGERPRINT: ${{ secrets.GPG_FINGERPRINT }}
+          GPG_FINGERPRINT: ${{ env.GPG_FINGERPRINT }}
 
   publish-tfe:
     name: Publish to TFE
     needs: release
     runs-on: ubuntu-latest
-    if: ${{ secrets.TFE_TOKEN != '' }}
+    env:
+      TFE_HOST: ${{ secrets.TFE_HOST }}
+      TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+      TFE_ORG: ${{ secrets.TFE_ORG }}
+      GPG_KEY_ID: ${{ secrets.TFE_GPG_KEY_ID }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    if: env.TFE_TOKEN != ''
     steps:
       - uses: actions/checkout@v4
 

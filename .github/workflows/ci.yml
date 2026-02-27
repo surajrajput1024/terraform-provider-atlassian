@@ -27,11 +27,15 @@ jobs:
           git config --global url."https://x-access-token:${GH_PAT}@github.com/".insteadOf "https://github.com/"
           git config --global url."https://x-access-token:${GH_PAT}@github.com/".insteadOf "git@github.com:"
 
+      - name: Go mod tidy
+        env:
+          GOPRIVATE: github.com/surajrajput1024/*
+        run: go mod tidy
+
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v4
         with:
-          version: latest
-          args: --timeout=5m
+          version: v1.61.0
         env:
           GOPRIVATE: github.com/surajrajput1024/*
 
@@ -54,6 +58,11 @@ jobs:
         run: |
           git config --global url."https://x-access-token:${GH_PAT}@github.com/".insteadOf "https://github.com/"
           git config --global url."https://x-access-token:${GH_PAT}@github.com/".insteadOf "git@github.com:"
+
+      - name: Go mod tidy
+        env:
+          GOPRIVATE: github.com/surajrajput1024/*
+        run: go mod tidy
 
       - name: Test
         env:
@@ -84,6 +93,11 @@ jobs:
         run: |
           git config --global url."https://x-access-token:${GH_PAT}@github.com/".insteadOf "https://github.com/"
           git config --global url."https://x-access-token:${GH_PAT}@github.com/".insteadOf "git@github.com:"
+
+      - name: Go mod tidy
+        env:
+          GOPRIVATE: github.com/surajrajput1024/*
+        run: go mod tidy
 
       - name: Generate docs
         env:
