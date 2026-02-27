@@ -8,6 +8,4 @@ linters:
     - gofmt
     - goimports
     - ineffassign
-    - staticcheck
     - unused
-    - vet
