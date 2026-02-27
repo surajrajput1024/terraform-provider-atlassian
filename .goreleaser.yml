@@ -1,0 +1,38 @@
+version: 2
+project_name: terraform-provider-atlassian
+before:
+  hooks:
+    - go mod tidy
+builds:
+  - id: provider
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -s -w
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+    binary: '{{ .ProjectName }}_v{{ .Version }}'
+archives:
+  - format: zip
+    name_template: '{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+checksum:
+  name_template: '{{ .ProjectName }}_{{ .Version }}_SHA256SUMS'
+  algorithm: sha256
+signs:
+  - artifacts: checksum
+release:
+  github:
+    owner: surajsinghrajput
+    name: terraform-provider-atlassian
+changelog:
+  disable: true

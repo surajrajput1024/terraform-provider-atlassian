@@ -1,0 +1,13 @@
+# Copy this file to terraform.tfvars and fill in your values.
+# See test-workspace/README.md for where to find each value.
+
+atlassian_domain    = "your-site.atlassian.net"  # e.g. mycompany.atlassian.net (from Jira URL)
+atlassian_email     = "you@example.com"          # Your Atlassian login email
+atlassian_api_token = "your-api-token"           # Create at: https://id.atlassian.com/manage-profile/security/api-tokens
+
+project_id_or_key = "PROJ"  # Existing project key or ID to look up (data source)
+
+create_project          = false  # Set true to create a new project (resource)
+new_project_key         = "DEMO"
+new_project_name        = "Demo Project"
+new_project_description = ""

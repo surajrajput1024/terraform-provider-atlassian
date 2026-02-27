@@ -1,0 +1,9 @@
+# Use the locally built provider (no registry). Run from test-workspace:
+#   TF_CLI_CONFIG_FILE=./dev_overrides.tfrc terraform init
+#   TF_CLI_CONFIG_FILE=./dev_overrides.tfrc terraform plan
+provider_installation {
+  dev_overrides {
+    "surajsinghrajput/atlassian" = ".."
+  }
+  direct {}
+}
