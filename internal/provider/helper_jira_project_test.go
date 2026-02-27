@@ -79,4 +79,3 @@ func TestCreateProjectErrorMessage_OtherError(t *testing.T) {
 		t.Fatalf("expected passthrough message %q, got %q", apiErr.Error(), msg)
 	}
 }
-

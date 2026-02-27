@@ -70,4 +70,3 @@ func expectDSStringAttrComputed(t *testing.T, attrs map[string]dsschema.Attribut
 		t.Fatalf("attribute %q should be Computed", name)
 	}
 }
-

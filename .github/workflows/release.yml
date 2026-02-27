@@ -8,9 +8,6 @@ on:
 permissions:
   contents: write
 
-env:
-  TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
-
 jobs:
   release:
     name: Test and release
@@ -58,20 +55,21 @@ jobs:
     name: Publish to TFE
     needs: release
     runs-on: ubuntu-latest
-    env:
-      TFE_HOST: ${{ secrets.TFE_HOST }}
-      TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
-      TFE_ORG: ${{ secrets.TFE_ORG }}
-      GPG_KEY_ID: ${{ secrets.TFE_GPG_KEY_ID }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    if: ${{ env.TFE_TOKEN != '' }}
     steps:
       - uses: actions/checkout@v4
 
+      - name: Check TFE publish enabled
+        id: tfe
+        run: echo "run=$([ -n \"$TFE_TOKEN\" ] && echo yes || echo no)" >> "$GITHUB_OUTPUT"
+        env:
+          TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+
       - name: Install jq
+        if: steps.tfe.outputs.run == 'yes'
         run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Publish provider to TFE
+        if: steps.tfe.outputs.run == 'yes'
         env:
           TFE_HOST: ${{ secrets.TFE_HOST }}
           TFE_TOKEN: ${{ secrets.TFE_TOKEN }}

@@ -28,7 +28,7 @@ type AtlassianCloudProviderModel struct {
 
 type providerData struct {
 	atlassianClient *atlassian.Client
-	jiraClient     *jira.Client
+	jiraClient      *jira.Client
 }
 
 func (p *AtlassianCloudProvider) Metadata(ctx context.Context, req provider.MetadataRequest, resp *provider.MetadataResponse) {

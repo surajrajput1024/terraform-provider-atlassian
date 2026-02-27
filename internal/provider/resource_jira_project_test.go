@@ -86,4 +86,3 @@ func expectStringAttrOptional(t *testing.T, attrs map[string]schema.Attribute, n
 		t.Fatalf("attribute %q should be Optional", name)
 	}
 }
-

@@ -20,11 +20,11 @@ type JiraProjectResource struct {
 }
 
 type JiraProjectResourceModel struct {
-	ID             types.String `tfsdk:"id"`
-	Key            types.String `tfsdk:"key"`
-	Name           types.String `tfsdk:"name"`
-	Description    types.String `tfsdk:"description"`
-	LeadAccountID  types.String `tfsdk:"lead_account_id"`
+	ID            types.String `tfsdk:"id"`
+	Key           types.String `tfsdk:"key"`
+	Name          types.String `tfsdk:"name"`
+	Description   types.String `tfsdk:"description"`
+	LeadAccountID types.String `tfsdk:"lead_account_id"`
 }
 
 func NewJiraProjectResource() resource.Resource {
