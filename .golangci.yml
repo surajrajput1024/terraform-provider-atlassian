@@ -3,6 +3,7 @@ run:
   go: "1.21"
 
 linters:
+  disable-all: true
   enable:
     - errcheck
     - gofmt
