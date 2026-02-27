@@ -8,6 +8,9 @@ on:
 permissions:
   contents: write
 
+env:
+  TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+
 jobs:
   release:
     name: Test and release

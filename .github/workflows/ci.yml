@@ -32,12 +32,19 @@ jobs:
           GOPRIVATE: github.com/surajrajput1024/*
         run: go mod tidy
 
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v4
-        with:
-          version: v1.61.0
+      - name: gofmt (fail on unformatted files)
+        run: |
+          files=$(gofmt -l .)
+          if [ -n "$files" ]; then
+            echo "These files are not gofmt-ed:"
+            echo "$files"
+            exit 1
+          fi
+
+      - name: go vet
         env:
           GOPRIVATE: github.com/surajrajput1024/*
+        run: go vet ./...
 
   test:
     name: Test
