@@ -22,9 +22,9 @@ type JiraWorkflowSchemeAttachmentResource struct {
 }
 
 type JiraWorkflowSchemeAttachmentResourceModel struct {
-	ID                types.String `tfsdk:"id"`
-	ProjectID         types.String `tfsdk:"project_id"`
-	WorkflowSchemeID  types.String `tfsdk:"workflow_scheme_id"`
+	ID               types.String `tfsdk:"id"`
+	ProjectID        types.String `tfsdk:"project_id"`
+	WorkflowSchemeID types.String `tfsdk:"workflow_scheme_id"`
 }
 
 func NewJiraWorkflowSchemeAttachmentResource() resource.Resource {
@@ -144,7 +144,8 @@ func (r *JiraWorkflowSchemeAttachmentResource) Read(ctx context.Context, req res
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 }
 
-func (r *JiraWorkflowSchemeAttachmentResource) Update(context.Context, resource.UpdateRequest, *resource.UpdateResponse) {}
+func (r *JiraWorkflowSchemeAttachmentResource) Update(context.Context, resource.UpdateRequest, *resource.UpdateResponse) {
+}
 
 func (r *JiraWorkflowSchemeAttachmentResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	// Removing from state. Jira API does not support "unassign" workflow scheme; project keeps current scheme.

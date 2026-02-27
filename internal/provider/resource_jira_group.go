@@ -118,7 +118,8 @@ func (r *JiraGroupResource) Read(ctx context.Context, req resource.ReadRequest, 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 }
 
-func (r *JiraGroupResource) Update(context.Context, resource.UpdateRequest, *resource.UpdateResponse) {}
+func (r *JiraGroupResource) Update(context.Context, resource.UpdateRequest, *resource.UpdateResponse) {
+}
 
 func (r *JiraGroupResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state JiraGroupResourceModel

@@ -1,0 +1,33 @@
+repos:
+  - repo: local
+    hooks:
+      - id: go-fmt
+        name: gofmt
+        entry: gofmt
+        language: system
+        types: [go]
+
+      - id: go-vet
+        name: go vet
+        entry: go vet ./...
+        language: system
+        pass_filenames: false
+
+      - id: go-test-provider
+        name: go test (provider)
+        entry: go test ./internal/provider/...
+        language: system
+        pass_filenames: false
+
+      - id: terraform-fmt
+        name: terraform fmt
+        entry: terraform fmt -recursive
+        language: system
+        pass_filenames: false
+        files: \.tf$
+
+      - id: terraform-validate
+        name: terraform validate
+        entry: terraform validate
+        language: system
+        pass_filenames: false

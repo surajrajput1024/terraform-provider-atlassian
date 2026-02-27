@@ -25,13 +25,13 @@ type JiraPermissionGrantResource struct {
 }
 
 type JiraPermissionGrantResourceModel struct {
-	ID              types.String `tfsdk:"id"`
-	SchemeID        types.String `tfsdk:"scheme_id"`
-	Permission      types.String `tfsdk:"permission"`
-	HolderType      types.String `tfsdk:"holder_type"`
-	GroupID         types.String `tfsdk:"group_id"`
-	GroupName       types.String `tfsdk:"group_name"`
-	ProjectRoleID   types.String `tfsdk:"project_role_id"`
+	ID            types.String `tfsdk:"id"`
+	SchemeID      types.String `tfsdk:"scheme_id"`
+	Permission    types.String `tfsdk:"permission"`
+	HolderType    types.String `tfsdk:"holder_type"`
+	GroupID       types.String `tfsdk:"group_id"`
+	GroupName     types.String `tfsdk:"group_name"`
+	ProjectRoleID types.String `tfsdk:"project_role_id"`
 }
 
 func NewJiraPermissionGrantResource() resource.Resource {

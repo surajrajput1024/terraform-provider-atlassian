@@ -177,7 +177,8 @@ func (r *JiraProjectRoleActorResource) Read(ctx context.Context, req resource.Re
 	resp.Diagnostics.Append(resp.State.Set(ctx, &state)...)
 }
 
-func (r *JiraProjectRoleActorResource) Update(context.Context, resource.UpdateRequest, *resource.UpdateResponse) {}
+func (r *JiraProjectRoleActorResource) Update(context.Context, resource.UpdateRequest, *resource.UpdateResponse) {
+}
 
 func (r *JiraProjectRoleActorResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
 	var state JiraProjectRoleActorResourceModel

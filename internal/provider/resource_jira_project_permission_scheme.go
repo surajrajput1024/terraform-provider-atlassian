@@ -22,9 +22,9 @@ type JiraProjectPermissionSchemeResource struct {
 }
 
 type JiraProjectPermissionSchemeResourceModel struct {
-	ID        types.String `tfsdk:"id"`
+	ID         types.String `tfsdk:"id"`
 	ProjectKey types.String `tfsdk:"project_key"`
-	SchemeID  types.String `tfsdk:"scheme_id"`
+	SchemeID   types.String `tfsdk:"scheme_id"`
 }
 
 func NewJiraProjectPermissionSchemeResource() resource.Resource {
