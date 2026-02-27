@@ -43,7 +43,7 @@ signs:
       - "${artifact}"
 release:
   github:
-    owner: surajsinghrajput
+    owner: surajrajput1024
     name: terraform-provider-atlassian
 changelog:
   disable: true
