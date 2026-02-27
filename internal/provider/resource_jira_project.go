@@ -82,7 +82,7 @@ func (r *JiraProjectResource) Create(ctx context.Context, req resource.CreateReq
 
 	pd := r.providerData
 	if pd == nil || pd.jiraClient == nil {
-		resp.Diagnostics.AddError("provider data", "provider data or Jira client is nil")
+		resp.Diagnostics.AddError(errProviderDataSummary, errProviderDataNil)
 		return
 	}
 
@@ -100,20 +100,20 @@ func (r *JiraProjectResource) Create(ctx context.Context, req resource.CreateReq
 	} else {
 		cur, err := pd.jiraClient.GetCurrentUser()
 		if err != nil {
-			resp.Diagnostics.AddError("create jira project", fmt.Sprintf("getting current user for project lead: %v", err))
+			resp.Diagnostics.AddError(errCreateJiraProject, fmt.Sprintf("getting current user for project lead: %v", err))
 			return
 		}
 		if cur == nil || cur.AccountID == "" {
-			resp.Diagnostics.AddError("create jira project", "could not determine project lead: current user has no account ID; set lead_account_id explicitly")
+			resp.Diagnostics.AddError(errCreateJiraProject, "could not determine project lead: current user has no account ID; set lead_account_id explicitly")
 			return
 		}
 		createReq.LeadAccountID = cur.AccountID
 	}
 	tflog.Debug(ctx, "Creating jira project", map[string]any{"key": createReq.Key, "name": createReq.Name})
 
-	created, err := pd.jiraClient.CreateProject(createReq)
+	created, err := pd.jiraClient.CreateProjectWithContext(ctx, createReq)
 	if err != nil {
-		resp.Diagnostics.AddError("create jira project", fmt.Sprintf("creating project: %s", createProjectErrorMessage(err)))
+		resp.Diagnostics.AddError(errCreateJiraProject, fmt.Sprintf("creating project: %s", createProjectErrorMessage(err)))
 		return
 	}
 
@@ -124,18 +124,18 @@ func (r *JiraProjectResource) Create(ctx context.Context, req resource.CreateReq
 
 func (r *JiraProjectResource) ImportState(ctx context.Context, req resource.ImportStateRequest, resp *resource.ImportStateResponse) {
 	if req.ID == "" {
-		resp.Diagnostics.AddError("import jira project", "import ID must be the project ID or key (e.g. DEMO3 or 10003)")
+		resp.Diagnostics.AddError(errImportJiraProject, "import ID must be the project ID or key (e.g. DEMO3 or 10003)")
 		return
 	}
 	pd := r.providerData
 	if pd == nil || pd.jiraClient == nil {
-		resp.Diagnostics.AddError("provider data", "provider data or Jira client is nil")
+		resp.Diagnostics.AddError(errProviderDataSummary, errProviderDataNil)
 		return
 	}
 	tflog.Debug(ctx, "Importing jira project", map[string]any{"id": req.ID})
-	project, err := pd.jiraClient.GetProject(req.ID)
+	project, err := pd.jiraClient.GetProjectWithContext(ctx, req.ID)
 	if err != nil {
-		resp.Diagnostics.AddError("import jira project", fmt.Sprintf("getting project: %v", err))
+		resp.Diagnostics.AddError(errImportJiraProject, fmt.Sprintf("getting project: %v", err))
 		return
 	}
 	state := projectResponseToResourceModel(project)
@@ -151,7 +151,7 @@ func (r *JiraProjectResource) Read(ctx context.Context, req resource.ReadRequest
 
 	pd := r.providerData
 	if pd == nil || pd.jiraClient == nil {
-		resp.Diagnostics.AddError("provider data", "provider data or Jira client is nil")
+		resp.Diagnostics.AddError(errProviderDataSummary, errProviderDataNil)
 		return
 	}
 
@@ -160,9 +160,9 @@ func (r *JiraProjectResource) Read(ctx context.Context, req resource.ReadRequest
 		projectIDOrKey = state.Key.ValueString()
 	}
 	tflog.Debug(ctx, "Reading jira project", map[string]any{"id": projectIDOrKey})
-	project, err := pd.jiraClient.GetProject(projectIDOrKey)
+	project, err := pd.jiraClient.GetProjectWithContext(ctx, projectIDOrKey)
 	if err != nil {
-		resp.Diagnostics.AddError("read jira project", fmt.Sprintf("getting project: %v", err))
+		resp.Diagnostics.AddError(errReadJiraProject, fmt.Sprintf("getting project: %v", err))
 		return
 	}
 	state = projectResponseToResourceModel(project)
@@ -178,7 +178,7 @@ func (r *JiraProjectResource) Update(ctx context.Context, req resource.UpdateReq
 
 	pd := r.providerData
 	if pd == nil || pd.jiraClient == nil {
-		resp.Diagnostics.AddError("provider data", "provider data or Jira client is nil")
+		resp.Diagnostics.AddError(errProviderDataSummary, errProviderDataNil)
 		return
 	}
 
@@ -201,9 +201,9 @@ func (r *JiraProjectResource) Update(ctx context.Context, req resource.UpdateReq
 	}
 
 	tflog.Debug(ctx, "Updating jira project", map[string]any{"id": projectIDOrKey})
-	updated, err := pd.jiraClient.UpdateProject(projectIDOrKey, updateReq)
+	updated, err := pd.jiraClient.UpdateProjectWithContext(ctx, projectIDOrKey, updateReq)
 	if err != nil {
-		resp.Diagnostics.AddError("update jira project", fmt.Sprintf("updating project: %v", err))
+		resp.Diagnostics.AddError(errUpdateJiraProject, fmt.Sprintf("updating project: %v", err))
 		return
 	}
 
@@ -224,7 +224,7 @@ func (r *JiraProjectResource) Delete(ctx context.Context, req resource.DeleteReq
 
 	pd := r.providerData
 	if pd == nil || pd.jiraClient == nil {
-		resp.Diagnostics.AddError("provider data", "provider data or Jira client is nil")
+		resp.Diagnostics.AddError(errProviderDataSummary, errProviderDataNil)
 		return
 	}
 
@@ -233,9 +233,9 @@ func (r *JiraProjectResource) Delete(ctx context.Context, req resource.DeleteReq
 		projectIDOrKey = state.Key.ValueString()
 	}
 	tflog.Debug(ctx, "Deleting jira project", map[string]any{"id": projectIDOrKey})
-	err := pd.jiraClient.DeleteProject(projectIDOrKey)
+	err := pd.jiraClient.DeleteProjectWithContext(ctx, projectIDOrKey)
 	if err != nil {
-		resp.Diagnostics.AddError("delete jira project", fmt.Sprintf("deleting project: %v", err))
+		resp.Diagnostics.AddError(errDeleteJiraProject, fmt.Sprintf("deleting project: %v", err))
 		return
 	}
 }

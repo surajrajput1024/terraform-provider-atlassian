@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     atlassian = {
-      source  = "surajsinghrajput/atlassian"
+      source  = "surajrajput1024/atlassian"
       version = ">= 0.1"
     }
   }

@@ -31,7 +31,7 @@ func TestJiraProjectResource_Schema(t *testing.T) {
 
 	s := resp.Schema
 	if s.MarkdownDescription == "" {
-		t.Fatalf("Schema.MarkdownDescription should not be empty")
+		t.Fatalf(msgSchemaDescriptionEmpty)
 	}
 
 	attrs := s.Attributes

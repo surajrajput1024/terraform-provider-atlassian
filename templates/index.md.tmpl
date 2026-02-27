@@ -1,12 +1,24 @@
 ---
 page_title: "Provider: atlassian"
 description: |-
-  Terraform provider for Atlassian Cloud (Jira, and more).
+  Terraform provider for Atlassian Cloud. Manage Jira projects, permission schemes, and more with Terraform.
 ---
 
 # Atlassian Provider
 
-Use the Atlassian provider to manage Atlassian Cloud (Jira, and more) with Terraform.
+The Atlassian provider lets you manage **Atlassian Cloud** resources (Jira and more) as Terraform resources and data sources. Configure the provider with your Atlassian site domain and API credentials; the provider uses the Jira Cloud REST API (v3) under the hood.
+
+## Authentication
+
+The provider requires three configuration arguments:
+
+| Argument | Description |
+|----------|-------------|
+| `domain` | Your Atlassian Cloud site host (e.g. `your-site.atlassian.net`). |
+| `email` | The email of the Atlassian account used for API authentication. |
+| `api_token` | An [Atlassian API token](https://id.atlassian.com/manage-profile/security/api-tokens) for that account. Stored as sensitive. |
+
+The token must have the necessary Jira (and future product) permissions for the resources you manage.
 
 ## Example Usage
 
@@ -15,7 +27,7 @@ terraform {
   required_providers {
     atlassian = {
       source  = "surajrajput1024/atlassian"
-      version = "0.0.5"
+      version = "~> 0.1"
     }
   }
 }
@@ -25,7 +37,37 @@ provider "atlassian" {
   email     = "you@example.com"
   api_token = var.atlassian_api_token
 }
+
+# Look up an existing project
+data "atlassian_jira_project" "proj" {
+  id = "PROJ"
+}
+
+# Create a new project
+resource "atlassian_jira_project" "new_proj" {
+  key         = "DEMO"
+  name        = "Demo Project"
+  description = "Created by Terraform"
+}
 ```
+
+## Resources and Data Sources
+
+**Data sources** (read-only):
+
+- [atlassian_jira_project](data-sources/jira_project) — look up a project by ID or key.
+
+**Resources** (create/update/delete):
+
+- [atlassian_jira_project](resources/jira_project) — manage a Jira project.
+- [atlassian_jira_permission_scheme](resources/jira_permission_scheme) — create a permission scheme (name/description).
+- [atlassian_jira_permission_grant](resources/jira_permission_grant) — attach a permission (e.g. BROWSE_PROJECTS) to a group or project role in a scheme.
+- [atlassian_jira_project_permission_scheme](resources/jira_project_permission_scheme) — attach a permission scheme to a project.
+- [atlassian_jira_project_role_actor](resources/jira_project_role_actor) — add a user or group to a project role.
+- [atlassian_jira_group](resources/jira_group) — create and manage a Jira group.
+- [atlassian_jira_workflow_scheme_attachment](resources/jira_workflow_scheme_attachment) — attach a workflow scheme to a project.
+
+See the linked pages for attribute schemas and examples.
 
 ## Schema
 

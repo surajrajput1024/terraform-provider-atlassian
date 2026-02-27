@@ -87,11 +87,16 @@ func (p *AtlassianCloudProvider) Configure(ctx context.Context, req provider.Con
 		resp.Diagnostics.AddError("provider config", fmt.Sprintf("creating atlassian client: %v", err))
 		return
 	}
+	jiraClient := jira.New(cl)
+	if err := CheckJiraHealth(ctx, jiraClient); err != nil {
+		resp.Diagnostics.AddError(errHealthCheckSummary, err.Error())
+		return
+	}
 	tflog.Debug(ctx, "Atlassian provider configured", map[string]any{"domain": cfg.Domain})
 
 	pd := &providerData{
 		atlassianClient: cl,
-		jiraClient:      jira.New(cl),
+		jiraClient:      jiraClient,
 	}
 	resp.DataSourceData = pd
 	resp.ResourceData = pd
@@ -100,6 +105,12 @@ func (p *AtlassianCloudProvider) Configure(ctx context.Context, req provider.Con
 func (p *AtlassianCloudProvider) Resources(ctx context.Context) []func() resource.Resource {
 	return []func() resource.Resource{
 		NewJiraProjectResource,
+		NewJiraPermissionSchemeResource,
+		NewJiraPermissionGrantResource,
+		NewJiraProjectPermissionSchemeResource,
+		NewJiraProjectRoleActorResource,
+		NewJiraGroupResource,
+		NewJiraWorkflowSchemeAttachmentResource,
 	}
 }
 

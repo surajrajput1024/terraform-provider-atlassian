@@ -3,7 +3,7 @@
 #   TF_CLI_CONFIG_FILE=./dev_overrides.tfrc terraform plan
 provider_installation {
   dev_overrides {
-    "surajsinghrajput/atlassian" = ".."
+    "surajrajput1024/atlassian" = ".."
   }
   direct {}
 }

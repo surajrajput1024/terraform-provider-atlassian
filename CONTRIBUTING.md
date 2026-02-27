@@ -14,7 +14,7 @@ Contributions are welcome. All changes must go through a pull request; direct pu
 ## Code expectations
 
 - Follow existing style and package layout (provider in root, resources/data sources under `internal/provider`).
-- Use the published [go-atlassian-cloud](https://github.com/surajsinghrajput/go-atlassian-cloud) client; no local `replace` in `go.mod`.
+- Use the published [go-atlassian-cloud](https://github.com/surajrajput1024/go-atlassian-cloud) client. For **local development** when the client lives in the same repo (e.g. `../go-atlassian-cloud`), you may add `replace github.com/surajrajput1024/go-atlassian-cloud => ../go-atlassian-cloud` in `go.mod`. **Remove the replace** before opening a PR or cutting a release so CI and consumers use the published module.
 - Add or update tests for new or changed behavior. Include helper tests where applicable.
 - Validate at boundaries; keep errors explicit and do not swallow them.
 

@@ -1,13 +1,30 @@
-# terraform-provider-atlassian
+# Terraform Provider for Atlassian Cloud
 
-Terraform provider for Atlassian Cloud (Jira, and more). Uses [go-atlassian-cloud](https://github.com/surajsinghrajput/go-atlassian-cloud) from GitHub with a pinned version.
+Manage **Atlassian Cloud** (Jira and more) with Terraform. This provider uses the [go-atlassian-cloud](https://github.com/surajrajput1024/go-atlassian-cloud) Go client with a pinned version.
 
 **Repository:** [github.com/surajsinghrajput/terraform-provider-atlassian](https://github.com/surajsinghrajput/terraform-provider-atlassian) · [Contributing](CONTRIBUTING.md)
 
+---
+
+## Table of contents
+
+- [Requirements](#requirements)
+- [Install](#install)
+- [Provider configuration](#provider-configuration)
+- [Data sources](#data-sources-read-only-lookup)
+- [Resources](#resources-create-update-delete)
+- [Local build (development)](#local-build-development)
+- [Local development with in-repo client](#local-development-with-in-repo-client)
+- [Debug logging](#debug-logging-tf_logdebug)
+- [Building and releasing](#building-and-releasing)
+- [Troubleshooting](#troubleshooting)
+
+---
+
 ## Requirements
 
-- Terraform >= 1.0
-- Go 1.21+ (for building the provider)
+- **Terraform** >= 1.0
+- **Go** 1.21+ (only for building the provider from source)
 
 ## Install
 
@@ -34,9 +51,10 @@ provider "atlassian" {
 
 ### Local build (development)
 
-From the repo root:
+From the provider repo root:
 
 ```bash
+cd terraform-provider-atlassian
 go mod tidy
 go build -o terraform-provider-atlassian .
 ```
@@ -64,6 +82,20 @@ provider_installation {
 export TF_CLI_CONFIG_FILE=/path/to/dev_overrides.tfrc
 terraform init
 ```
+
+### Local development with in-repo client
+
+When developing the provider and the **go-atlassian-cloud** client in the same repository (e.g. monorepo layout), you can point the provider at the local client so changes in the client are used immediately without publishing a new version.
+
+1. In the provider's `go.mod`, add a **replace** directive (path relative to the provider directory):
+
+   ```go
+   replace github.com/surajrajput1024/go-atlassian-cloud => ../go-atlassian-cloud
+   ```
+
+2. Run `go mod tidy` and build the provider as above.
+
+3. **Remove the replace** before opening a PR or cutting a release so that CI and consumers use the published module. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Provider configuration
 
@@ -98,6 +130,12 @@ Resources manage lifecycle: create, read, update, and delete.
 | Name | Description |
 |------|-------------|
 | `atlassian_jira_project` | Create, update, or delete a Jira project. |
+| `atlassian_jira_permission_scheme` | Create/update/delete a Jira permission scheme (name, description). |
+| `atlassian_jira_permission_grant` | Attach a permission (e.g. BROWSE_PROJECTS) to a group or project role within a scheme. |
+| `atlassian_jira_project_permission_scheme` | Attach a permission scheme to a project. |
+| `atlassian_jira_project_role_actor` | Add a user or group to a project role. |
+| `atlassian_jira_group` | Create and manage a Jira group. |
+| `atlassian_jira_workflow_scheme_attachment` | Attach a workflow scheme to a project. |
 
 ```hcl
 resource "atlassian_jira_project" "proj" {
@@ -134,18 +172,19 @@ Logs go to stderr and to the file when `TF_LOG_PATH` is set. The provider uses [
 
 To cut a release: `git tag v0.1.0 && git push origin v0.1.0`
 
-**Release secrets (optional):**
+---
 
-- `GPG_PRIVATE_KEY` — armored GPG private key (for signing SHA256SUMS; required for TFE publish).
-- `GPG_FINGERPRINT` — fingerprint of that key (so GoReleaser can select it).
-- For **TFE publish**: `TFE_TOKEN`, `TFE_ORG`, `TFE_GPG_KEY_ID` (same key ID as above, uploaded to TFE). Optionally `TFE_HOST` (default `app.terraform.io`).
+## Troubleshooting
 
-**Publishing to TFE:** The shell script `scripts/publish_tfe.sh` runs in CI after a tag release when `TFE_TOKEN` is set. It downloads the GitHub release assets for that tag and creates the provider version in your TFE org, then uploads SHASUMS, signature, and binaries. You can also run it locally:
+| Issue | What to do |
+|-------|------------|
+| `fatal: could not read Username for 'https://github.com'` when running `go mod tidy` | Configure Git to use SSH for GitHub: `git config --global url."git@github.com:".insteadOf "https://github.com/"`. Ensure your SSH key is added to GitHub. |
+| Provider not found after local build | Use [development overrides](https://developer.hashicorp.com/terraform/cli/config/config-file#development-overrides) so Terraform uses your built binary. Set `TF_CLI_CONFIG_FILE` to that config. |
+| Jira API returns 401 Unauthorized | Check that `domain`, `email`, and `api_token` are correct. Create or regenerate an [Atlassian API token](https://id.atlassian.com/manage-profile/security/api-tokens). |
+| Jira API returns 404 for a project | Confirm the project key or ID exists and the authenticated user has access. Use the Jira UI or API to verify. |
+| Plan/apply is slow or times out | Enable debug logging (`TF_LOG=DEBUG`) to see which API calls run. Consider network or Jira instance latency; the client uses retries for transient errors. |
 
-```bash
-TFE_TOKEN=... TFE_ORG=... TFE_GPG_KEY_ID=... GITHUB_TOKEN=... \\
-  bash scripts/publish_tfe.sh v0.1.0
-```
+For more details on the provider and each resource/datasource, see the [generated docs](docs/) (e.g. `docs/resources/jira_project.md`).
 
 ## License
 

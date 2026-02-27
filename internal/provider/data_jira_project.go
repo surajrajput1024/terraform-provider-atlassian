@@ -70,15 +70,15 @@ func (d *JiraProjectDataSource) Read(ctx context.Context, req datasource.ReadReq
 
 	pd := d.providerData
 	if pd == nil || pd.jiraClient == nil {
-		resp.Diagnostics.AddError("provider data", "provider data or Jira client is nil")
+		resp.Diagnostics.AddError(errProviderDataSummary, errProviderDataNil)
 		return
 	}
 
 	projectIDOrKey := config.ID.ValueString()
 	tflog.Debug(ctx, "Reading jira project", map[string]any{"id": projectIDOrKey})
-	project, err := pd.jiraClient.GetProject(projectIDOrKey)
+	project, err := pd.jiraClient.GetProjectWithContext(ctx, projectIDOrKey)
 	if err != nil {
-		resp.Diagnostics.AddError("read jira project", fmt.Sprintf("getting project %q: %v", projectIDOrKey, err))
+		resp.Diagnostics.AddError(errReadJiraProject, fmt.Sprintf("getting project %q: %v", projectIDOrKey, err))
 		return
 	}
 

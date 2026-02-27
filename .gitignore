@@ -22,3 +22,4 @@ override.tf.json
 *.swp
 *.swo
 dist/
+coverage.out

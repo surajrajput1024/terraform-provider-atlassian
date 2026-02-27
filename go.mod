@@ -8,7 +8,7 @@ require (
 	github.com/hashicorp/terraform-plugin-docs v0.24.0
 	github.com/hashicorp/terraform-plugin-framework v1.8.0
 	github.com/hashicorp/terraform-plugin-log v0.9.0
-	github.com/surajrajput1024/go-atlassian-cloud v0.1.6
+	github.com/surajrajput1024/go-atlassian-cloud v0.1.8
 )
 
 require (
