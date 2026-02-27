@@ -117,6 +117,11 @@ func (p *AtlassianCloudProvider) Resources(ctx context.Context) []func() resourc
 func (p *AtlassianCloudProvider) DataSources(ctx context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
 		NewJiraProjectDataSource,
+		NewJiraPermissionSchemeDataSource,
+		NewJiraGroupDataSource,
+		NewJiraProjectPermissionSchemeDataSource,
+		NewJiraProjectRoleDataSource,
+		NewJiraWorkflowSchemeAttachmentDataSource,
 	}
 }
 

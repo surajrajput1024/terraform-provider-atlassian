@@ -56,6 +56,11 @@ resource "atlassian_jira_project" "new_proj" {
 **Data sources** (read-only):
 
 - [atlassian_jira_project](data-sources/jira_project) — look up a project by ID or key.
+- [atlassian_jira_permission_scheme](data-sources/jira_permission_scheme) — look up a permission scheme by ID.
+- [atlassian_jira_group](data-sources/jira_group) — look up a Jira group by ID.
+- [atlassian_jira_project_permission_scheme](data-sources/jira_project_permission_scheme) — look up the permission scheme attached to a project.
+- [atlassian_jira_project_role](data-sources/jira_project_role) — look up a project role and its actors.
+- [atlassian_jira_workflow_scheme_attachment](data-sources/jira_workflow_scheme_attachment) — look up the workflow scheme attached to a project.
 
 **Resources** (create/update/delete):
 

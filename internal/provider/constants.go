@@ -32,6 +32,7 @@ const (
 	errDeleteProjectRoleActor        = "delete project role actor"
 	errAssignWorkflowScheme          = "assign workflow scheme"
 	errReadWorkflowSchemeAttachment  = "read workflow scheme attachment"
+	errReadJiraProjectRole           = "read jira project role"
 	errHolder                        = "holder"
 	errHolderType                    = "holder_type"
 )
