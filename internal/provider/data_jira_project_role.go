@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -102,7 +101,7 @@ func (d *JiraProjectRoleDataSource) Read(ctx context.Context, req datasource.Rea
 	tflog.Debug(ctx, "Reading jira project role (data source)", map[string]any{"project_key": projectKey, "role_id": roleID})
 	role, err := pd.jiraClient.GetProjectRole(projectKey, roleID)
 	if err != nil {
-		resp.Diagnostics.AddError(errReadJiraProjectRole, fmt.Sprintf("getting project role: %v", err))
+		resp.Diagnostics.AddError(errReadJiraProjectRole, apiErrorMessage(err))
 		return
 	}
 

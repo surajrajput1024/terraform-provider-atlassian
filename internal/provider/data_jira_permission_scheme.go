@@ -78,7 +78,7 @@ func (d *JiraPermissionSchemeDataSource) Read(ctx context.Context, req datasourc
 	tflog.Debug(ctx, "Reading jira permission scheme (data source)", map[string]any{"id": schemeID})
 	scheme, err := pd.jiraClient.GetPermissionScheme(schemeID)
 	if err != nil {
-		resp.Diagnostics.AddError(errReadJiraPermissionScheme, fmt.Sprintf("getting permission scheme: %v", err))
+		resp.Diagnostics.AddError(errReadJiraPermissionScheme, apiErrorMessage(err))
 		return
 	}
 

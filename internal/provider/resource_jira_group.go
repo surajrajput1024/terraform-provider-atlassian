@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
 	"github.com/hashicorp/terraform-plugin-framework/resource/schema"
@@ -83,7 +82,7 @@ func (r *JiraGroupResource) Create(ctx context.Context, req resource.CreateReque
 	tflog.Debug(ctx, "Creating jira group", map[string]any{"name": createReq.Name})
 	created, err := pd.jiraClient.CreateGroup(createReq)
 	if err != nil {
-		resp.Diagnostics.AddError(errCreateJiraGroup, fmt.Sprintf("creating group: %v", err))
+		resp.Diagnostics.AddError(errCreateJiraGroup, apiErrorMessage(err))
 		return
 	}
 
@@ -109,7 +108,7 @@ func (r *JiraGroupResource) Read(ctx context.Context, req resource.ReadRequest, 
 	tflog.Debug(ctx, "Reading jira group", map[string]any{"id": groupID})
 	group, err := pd.jiraClient.GetGroup(groupID, "")
 	if err != nil {
-		resp.Diagnostics.AddError(errReadJiraGroup, fmt.Sprintf("getting group: %v", err))
+		resp.Diagnostics.AddError(errReadJiraGroup, apiErrorMessage(err))
 		return
 	}
 
@@ -137,7 +136,7 @@ func (r *JiraGroupResource) Delete(ctx context.Context, req resource.DeleteReque
 	groupID := state.ID.ValueString()
 	tflog.Debug(ctx, "Deleting jira group", map[string]any{"id": groupID})
 	if err := pd.jiraClient.DeleteGroup(groupID, "", "", ""); err != nil {
-		resp.Diagnostics.AddError(errDeleteJiraGroup, fmt.Sprintf("deleting group: %v", err))
+		resp.Diagnostics.AddError(errDeleteJiraGroup, apiErrorMessage(err))
 		return
 	}
 }
@@ -158,7 +157,7 @@ func (r *JiraGroupResource) ImportState(ctx context.Context, req resource.Import
 		group, err = pd.jiraClient.GetGroup("", req.ID)
 	}
 	if err != nil {
-		resp.Diagnostics.AddError(errImport, fmt.Sprintf("getting group: %v", err))
+		resp.Diagnostics.AddError(errImport, apiErrorMessage(err))
 		return
 	}
 	state := JiraGroupResourceModel{

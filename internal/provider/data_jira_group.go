@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/datasource/schema"
@@ -73,7 +72,7 @@ func (d *JiraGroupDataSource) Read(ctx context.Context, req datasource.ReadReque
 	tflog.Debug(ctx, "Reading jira group (data source)", map[string]any{"id": id})
 	group, err := pd.jiraClient.GetGroup(id, "")
 	if err != nil {
-		resp.Diagnostics.AddError(errReadJiraGroup, fmt.Sprintf("getting group: %v", err))
+		resp.Diagnostics.AddError(errReadJiraGroup, apiErrorMessage(err))
 		return
 	}
 

@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"fmt"
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -79,7 +78,7 @@ func (d *JiraWorkflowSchemeAttachmentDataSource) Read(ctx context.Context, req d
 	tflog.Debug(ctx, "Reading workflow scheme attachment (data source)", map[string]any{"project_id": projectID})
 	assoc, err := pd.jiraClient.GetWorkflowSchemeProjectAssociations([]string{projectID})
 	if err != nil {
-		resp.Diagnostics.AddError(errReadWorkflowSchemeAttachment, fmt.Sprintf("getting workflow scheme associations: %v", err))
+		resp.Diagnostics.AddError(errReadWorkflowSchemeAttachment, apiErrorMessage(err))
 		return
 	}
 

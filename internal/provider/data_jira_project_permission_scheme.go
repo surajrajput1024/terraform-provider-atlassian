@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"fmt"
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
@@ -79,7 +78,7 @@ func (d *JiraProjectPermissionSchemeDataSource) Read(ctx context.Context, req da
 	tflog.Debug(ctx, "Reading project permission scheme (data source)", map[string]any{"project_key": projectKey})
 	scheme, err := pd.jiraClient.GetProjectPermissionScheme(projectKey)
 	if err != nil {
-		resp.Diagnostics.AddError(errReadProjectPermissionScheme, fmt.Sprintf("getting permission scheme for project: %v", err))
+		resp.Diagnostics.AddError(errReadProjectPermissionScheme, apiErrorMessage(err))
 		return
 	}
 

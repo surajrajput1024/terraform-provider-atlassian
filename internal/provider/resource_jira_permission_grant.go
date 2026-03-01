@@ -137,7 +137,7 @@ func (r *JiraPermissionGrantResource) Create(ctx context.Context, req resource.C
 	tflog.Debug(ctx, "Creating jira permission grant", map[string]any{"scheme_id": schemeID, "permission": createReq.Permission})
 	grant, err := pd.jiraClient.CreatePermissionGrant(schemeID, createReq)
 	if err != nil {
-		resp.Diagnostics.AddError(errCreateJiraPermissionGrant, fmt.Sprintf("creating permission grant: %v", err))
+		resp.Diagnostics.AddError(errCreateJiraPermissionGrant, apiErrorMessage(err))
 		return
 	}
 
@@ -167,7 +167,7 @@ func (r *JiraPermissionGrantResource) Read(ctx context.Context, req resource.Rea
 	tflog.Debug(ctx, "Reading jira permission grant", map[string]any{"scheme_id": schemeID, "grant_id": grantID})
 	grant, err := pd.jiraClient.GetPermissionGrant(schemeID, grantID)
 	if err != nil {
-		resp.Diagnostics.AddError(errReadJiraPermissionGrant, fmt.Sprintf("getting permission grant: %v", err))
+		resp.Diagnostics.AddError(errReadJiraPermissionGrant, apiErrorMessage(err))
 		return
 	}
 
@@ -216,7 +216,7 @@ func (r *JiraPermissionGrantResource) Delete(ctx context.Context, req resource.D
 
 	tflog.Debug(ctx, "Deleting jira permission grant", map[string]any{"scheme_id": schemeID, "grant_id": grantID})
 	if err := pd.jiraClient.DeletePermissionGrant(schemeID, grantID); err != nil {
-		resp.Diagnostics.AddError(errDeleteJiraPermissionGrant, fmt.Sprintf("deleting permission grant: %v", err))
+		resp.Diagnostics.AddError(errDeleteJiraPermissionGrant, apiErrorMessage(err))
 		return
 	}
 }
@@ -239,7 +239,7 @@ func (r *JiraPermissionGrantResource) ImportState(ctx context.Context, req resou
 	tflog.Debug(ctx, "Importing jira permission grant", map[string]any{"id": req.ID})
 	grant, err := pd.jiraClient.GetPermissionGrant(schemeID, grantID)
 	if err != nil {
-		resp.Diagnostics.AddError(errImportJiraPermissionGrant, fmt.Sprintf("getting permission grant: %v", err))
+		resp.Diagnostics.AddError(errImportJiraPermissionGrant, apiErrorMessage(err))
 		return
 	}
 	state := JiraPermissionGrantResourceModel{

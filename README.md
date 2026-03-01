@@ -163,7 +163,7 @@ Logs go to stderr and to the file when `TF_LOG_PATH` is set. The provider uses [
 - **Test:** `go test ./...` or `make test`
 - **Install locally:** `make install` (copies binary into `~/.terraform.d/plugins/...`)
 - **Generate docs:** `make docs` (runs [terraform-plugin-docs](https://github.com/hashicorp/terraform-plugin-docs) `tfplugindocs generate`; output in `docs/`)
-- **Upgrade client:** `go get github.com/surajsinghrajput/go-atlassian-cloud@v<version>` then commit `go.mod` and `go.sum`
+- **Upgrade client:** `go get github.com/surajrajput1024/go-atlassian-cloud@v<version>` then commit `go.mod` and `go.sum`
 
 ### CI and release (GitHub Actions)
 

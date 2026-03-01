@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"fmt"
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -123,7 +122,7 @@ func (r *JiraProjectRoleActorResource) Create(ctx context.Context, req resource.
 	tflog.Debug(ctx, "Adding project role actor", map[string]any{"project_key": projectKey, "role_id": roleID})
 	_, err := pd.jiraClient.AddProjectRoleActors(projectKey, roleID, addReq)
 	if err != nil {
-		resp.Diagnostics.AddError(errAddProjectRoleActor, fmt.Sprintf("adding actor: %v", err))
+		resp.Diagnostics.AddError(errAddProjectRoleActor, apiErrorMessage(err))
 		return
 	}
 
@@ -149,7 +148,7 @@ func (r *JiraProjectRoleActorResource) Read(ctx context.Context, req resource.Re
 	tflog.Debug(ctx, "Reading project role", map[string]any{"project_key": projectKey, "role_id": roleID})
 	role, err := pd.jiraClient.GetProjectRole(projectKey, roleID)
 	if err != nil {
-		resp.Diagnostics.AddError(errReadProjectRoleActor, fmt.Sprintf("getting project role: %v", err))
+		resp.Diagnostics.AddError(errReadProjectRoleActor, apiErrorMessage(err))
 		return
 	}
 
@@ -206,7 +205,7 @@ func (r *JiraProjectRoleActorResource) Delete(ctx context.Context, req resource.
 
 	tflog.Debug(ctx, "Deleting project role actor", map[string]any{"project_key": projectKey, "role_id": roleID})
 	if err := pd.jiraClient.DeleteProjectRoleActors(projectKey, roleID, user, group, groupID); err != nil {
-		resp.Diagnostics.AddError(errDeleteProjectRoleActor, fmt.Sprintf("removing actor: %v", err))
+		resp.Diagnostics.AddError(errDeleteProjectRoleActor, apiErrorMessage(err))
 		return
 	}
 }

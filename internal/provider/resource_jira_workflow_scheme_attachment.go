@@ -91,7 +91,7 @@ func (r *JiraWorkflowSchemeAttachmentResource) Create(ctx context.Context, req r
 	workflowSchemeID := plan.WorkflowSchemeID.ValueString()
 	tflog.Debug(ctx, "Assigning workflow scheme to project", map[string]any{"project_id": projectID, "workflow_scheme_id": workflowSchemeID})
 	if err := pd.jiraClient.AssignWorkflowSchemeToProject(projectID, workflowSchemeID); err != nil {
-		resp.Diagnostics.AddError(errAssignWorkflowScheme, fmt.Sprintf("assigning workflow scheme to project: %v", err))
+		resp.Diagnostics.AddError(errAssignWorkflowScheme, apiErrorMessage(err))
 		return
 	}
 
@@ -116,7 +116,7 @@ func (r *JiraWorkflowSchemeAttachmentResource) Read(ctx context.Context, req res
 	tflog.Debug(ctx, "Reading workflow scheme associations", map[string]any{"project_id": projectID})
 	assocs, err := pd.jiraClient.GetWorkflowSchemeProjectAssociations([]string{projectID})
 	if err != nil {
-		resp.Diagnostics.AddError(errReadWorkflowSchemeAttachment, fmt.Sprintf("getting associations: %v", err))
+		resp.Diagnostics.AddError(errReadWorkflowSchemeAttachment, apiErrorMessage(err))
 		return
 	}
 

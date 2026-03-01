@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"fmt"
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -92,7 +91,7 @@ func (r *JiraPermissionSchemeResource) Create(ctx context.Context, req resource.
 	tflog.Debug(ctx, "Creating jira permission scheme", map[string]any{"name": createReq.Name})
 	created, err := pd.jiraClient.CreatePermissionScheme(createReq)
 	if err != nil {
-		resp.Diagnostics.AddError(errCreateJiraPermissionScheme, fmt.Sprintf("creating permission scheme: %v", err))
+		resp.Diagnostics.AddError(errCreateJiraPermissionScheme, apiErrorMessage(err))
 		return
 	}
 
@@ -123,7 +122,7 @@ func (r *JiraPermissionSchemeResource) Read(ctx context.Context, req resource.Re
 	tflog.Debug(ctx, "Reading jira permission scheme", map[string]any{"id": schemeID})
 	scheme, err := pd.jiraClient.GetPermissionScheme(schemeID)
 	if err != nil {
-		resp.Diagnostics.AddError(errReadJiraPermissionScheme, fmt.Sprintf("getting permission scheme: %v", err))
+		resp.Diagnostics.AddError(errReadJiraPermissionScheme, apiErrorMessage(err))
 		return
 	}
 
@@ -161,7 +160,7 @@ func (r *JiraPermissionSchemeResource) Update(ctx context.Context, req resource.
 	tflog.Debug(ctx, "Updating jira permission scheme", map[string]any{"id": schemeID})
 	updated, err := pd.jiraClient.UpdatePermissionScheme(schemeID, updateReq)
 	if err != nil {
-		resp.Diagnostics.AddError(errUpdateJiraPermissionScheme, fmt.Sprintf("updating permission scheme: %v", err))
+		resp.Diagnostics.AddError(errUpdateJiraPermissionScheme, apiErrorMessage(err))
 		return
 	}
 
@@ -188,7 +187,7 @@ func (r *JiraPermissionSchemeResource) Delete(ctx context.Context, req resource.
 	schemeID := state.ID.ValueString()
 	tflog.Debug(ctx, "Deleting jira permission scheme", map[string]any{"id": schemeID})
 	if err := pd.jiraClient.DeletePermissionScheme(schemeID); err != nil {
-		resp.Diagnostics.AddError(errDeleteJiraPermissionScheme, fmt.Sprintf("deleting permission scheme: %v", err))
+		resp.Diagnostics.AddError(errDeleteJiraPermissionScheme, apiErrorMessage(err))
 		return
 	}
 }
@@ -206,7 +205,7 @@ func (r *JiraPermissionSchemeResource) ImportState(ctx context.Context, req reso
 	tflog.Debug(ctx, "Importing jira permission scheme", map[string]any{"id": req.ID})
 	scheme, err := pd.jiraClient.GetPermissionScheme(req.ID)
 	if err != nil {
-		resp.Diagnostics.AddError(errImportJiraPermissionScheme, fmt.Sprintf("getting permission scheme: %v", err))
+		resp.Diagnostics.AddError(errImportJiraPermissionScheme, apiErrorMessage(err))
 		return
 	}
 	state := JiraPermissionSchemeResourceModel{

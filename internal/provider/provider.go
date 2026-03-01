@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-framework/datasource"
 	"github.com/hashicorp/terraform-plugin-framework/provider"
@@ -84,7 +83,7 @@ func (p *AtlassianCloudProvider) Configure(ctx context.Context, req provider.Con
 	}
 	cl, err := atlassian.NewClient(cfg, atlassian.DefaultOptions())
 	if err != nil {
-		resp.Diagnostics.AddError("provider config", fmt.Sprintf("creating atlassian client: %v", err))
+		resp.Diagnostics.AddError("provider config", apiErrorMessage(err))
 		return
 	}
 	jiraClient := jira.New(cl)

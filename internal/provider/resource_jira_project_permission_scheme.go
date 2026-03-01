@@ -2,7 +2,6 @@ package provider
 
 import (
 	"context"
-	"fmt"
 	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-framework/resource"
@@ -95,7 +94,7 @@ func (r *JiraProjectPermissionSchemeResource) Create(ctx context.Context, req re
 	tflog.Debug(ctx, "Assigning permission scheme to project", map[string]any{"project_key": projectKey, "scheme_id": schemeID})
 	_, err = pd.jiraClient.AssignPermissionSchemeToProject(projectKey, schemeID)
 	if err != nil {
-		resp.Diagnostics.AddError(errAssignPermissionScheme, fmt.Sprintf("assigning scheme to project: %v", err))
+		resp.Diagnostics.AddError(errAssignPermissionScheme, apiErrorMessage(err))
 		return
 	}
 
@@ -120,7 +119,7 @@ func (r *JiraProjectPermissionSchemeResource) Read(ctx context.Context, req reso
 	tflog.Debug(ctx, "Reading project permission scheme", map[string]any{"project_key": projectKey})
 	scheme, err := pd.jiraClient.GetProjectPermissionScheme(projectKey)
 	if err != nil {
-		resp.Diagnostics.AddError(errReadProjectPermissionScheme, fmt.Sprintf("getting scheme for project: %v", err))
+		resp.Diagnostics.AddError(errReadProjectPermissionScheme, apiErrorMessage(err))
 		return
 	}
 
@@ -153,7 +152,7 @@ func (r *JiraProjectPermissionSchemeResource) Update(ctx context.Context, req re
 	tflog.Debug(ctx, "Updating project permission scheme", map[string]any{"project_key": projectKey, "scheme_id": schemeID})
 	_, err = pd.jiraClient.AssignPermissionSchemeToProject(projectKey, schemeID)
 	if err != nil {
-		resp.Diagnostics.AddError(errUpdateProjectPermissionScheme, fmt.Sprintf("assigning scheme: %v", err))
+		resp.Diagnostics.AddError(errUpdateProjectPermissionScheme, apiErrorMessage(err))
 		return
 	}
 
@@ -184,7 +183,7 @@ func (r *JiraProjectPermissionSchemeResource) ImportState(ctx context.Context, r
 	tflog.Debug(ctx, "Importing project permission scheme", map[string]any{"id": req.ID})
 	scheme, err := pd.jiraClient.GetProjectPermissionScheme(req.ID)
 	if err != nil {
-		resp.Diagnostics.AddError(errImport, fmt.Sprintf("getting scheme for project: %v", err))
+		resp.Diagnostics.AddError(errImport, apiErrorMessage(err))
 		return
 	}
 	state := JiraProjectPermissionSchemeResourceModel{

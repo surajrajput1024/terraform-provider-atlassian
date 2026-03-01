@@ -100,7 +100,7 @@ func (r *JiraProjectResource) Create(ctx context.Context, req resource.CreateReq
 	} else {
 		cur, err := pd.jiraClient.GetCurrentUser()
 		if err != nil {
-			resp.Diagnostics.AddError(errCreateJiraProject, fmt.Sprintf("getting current user for project lead: %v", err))
+			resp.Diagnostics.AddError(errCreateJiraProject, apiErrorMessage(err))
 			return
 		}
 		if cur == nil || cur.AccountID == "" {
@@ -135,7 +135,7 @@ func (r *JiraProjectResource) ImportState(ctx context.Context, req resource.Impo
 	tflog.Debug(ctx, "Importing jira project", map[string]any{"id": req.ID})
 	project, err := pd.jiraClient.GetProjectWithContext(ctx, req.ID)
 	if err != nil {
-		resp.Diagnostics.AddError(errImportJiraProject, fmt.Sprintf("getting project: %v", err))
+		resp.Diagnostics.AddError(errImportJiraProject, apiErrorMessage(err))
 		return
 	}
 	state := projectResponseToResourceModel(project)
@@ -162,7 +162,7 @@ func (r *JiraProjectResource) Read(ctx context.Context, req resource.ReadRequest
 	tflog.Debug(ctx, "Reading jira project", map[string]any{"id": projectIDOrKey})
 	project, err := pd.jiraClient.GetProjectWithContext(ctx, projectIDOrKey)
 	if err != nil {
-		resp.Diagnostics.AddError(errReadJiraProject, fmt.Sprintf("getting project: %v", err))
+		resp.Diagnostics.AddError(errReadJiraProject, apiErrorMessage(err))
 		return
 	}
 	state = projectResponseToResourceModel(project)
@@ -203,7 +203,7 @@ func (r *JiraProjectResource) Update(ctx context.Context, req resource.UpdateReq
 	tflog.Debug(ctx, "Updating jira project", map[string]any{"id": projectIDOrKey})
 	updated, err := pd.jiraClient.UpdateProjectWithContext(ctx, projectIDOrKey, updateReq)
 	if err != nil {
-		resp.Diagnostics.AddError(errUpdateJiraProject, fmt.Sprintf("updating project: %v", err))
+		resp.Diagnostics.AddError(errUpdateJiraProject, apiErrorMessage(err))
 		return
 	}
 
@@ -235,7 +235,7 @@ func (r *JiraProjectResource) Delete(ctx context.Context, req resource.DeleteReq
 	tflog.Debug(ctx, "Deleting jira project", map[string]any{"id": projectIDOrKey})
 	err := pd.jiraClient.DeleteProjectWithContext(ctx, projectIDOrKey)
 	if err != nil {
-		resp.Diagnostics.AddError(errDeleteJiraProject, fmt.Sprintf("deleting project: %v", err))
+		resp.Diagnostics.AddError(errDeleteJiraProject, apiErrorMessage(err))
 		return
 	}
 }

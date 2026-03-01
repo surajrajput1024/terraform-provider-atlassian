@@ -78,7 +78,7 @@ func (d *JiraProjectDataSource) Read(ctx context.Context, req datasource.ReadReq
 	tflog.Debug(ctx, "Reading jira project", map[string]any{"id": projectIDOrKey})
 	project, err := pd.jiraClient.GetProjectWithContext(ctx, projectIDOrKey)
 	if err != nil {
-		resp.Diagnostics.AddError(errReadJiraProject, fmt.Sprintf("getting project %q: %v", projectIDOrKey, err))
+		resp.Diagnostics.AddError(errReadJiraProject, fmt.Sprintf("getting project %q: %s", projectIDOrKey, apiErrorMessage(err)))
 		return
 	}
 
