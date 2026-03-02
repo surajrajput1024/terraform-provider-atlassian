@@ -1,4 +1,4 @@
-# Terraform Provider for Atlassian Cloud
+# Terraform Provider for Atlassian Cloud ( Jira )
 
 Manage **Atlassian Cloud** (Jira and more) with Terraform. This provider uses the [go-atlassian-cloud](https://github.com/surajrajput1024/go-atlassian-cloud) Go client with a pinned version.
 
