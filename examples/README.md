@@ -2,6 +2,12 @@
 
 Example Terraform configurations for the Atlassian provider.
 
+## Quick start
+
+| Example | Description |
+|--------|-------------|
+| [quickstart](quickstart) | Minimal: provider + variables + one Jira project (v0.1.0+) |
+
 ## Data sources
 
 | Example | Description |

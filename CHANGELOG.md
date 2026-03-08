@@ -25,6 +25,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [0.1.0] - 2026-03-01
+
+First **stable** release. Scope: Jira projects, permission schemes and grants, project permission scheme attachment, project role actors, groups, workflow scheme attachment. No changes to resource or data source schemas from 0.0.x; upgrade with `version = "~> 0.1"`.
+
+### Added
+
+- Terraform Registry manifest (`terraform-registry-manifest.json`) and GoReleaser config so releases are Registry-ready (protocol 6.0, manifest in release and checksum).
+- Version ldflag in binary (`main.version`) for `terraform version` and debugging.
+- [examples/quickstart](examples/quickstart) — minimal example: provider, variables, one project, outputs.
+
+### Changed
+
+- (No breaking changes from 0.0.9.)
+
+---
+
 ## [0.0.9] - 2026-03-01
 
 ### Added
@@ -45,5 +61,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Data sources:** `atlassian_jira_project`, `atlassian_jira_permission_scheme`, `atlassian_jira_group`, `atlassian_jira_project_permission_scheme`, `atlassian_jira_project_role`, `atlassian_jira_workflow_scheme_attachment`.
 - Provider configuration: `domain`, `email`, `api_token`. Health check on configure via Jira current user endpoint.
 
-[Unreleased]: https://github.com/surajsinghrajput/terraform-provider-atlassian/compare/v0.0.9...HEAD
+[Unreleased]: https://github.com/surajsinghrajput/terraform-provider-atlassian/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/surajsinghrajput/terraform-provider-atlassian/releases/tag/v0.1.0
 [0.0.9]: https://github.com/surajsinghrajput/terraform-provider-atlassian/releases/tag/v0.0.9

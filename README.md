@@ -2,7 +2,7 @@
 
 Manage **Atlassian Cloud** (Jira and more) with Terraform. This provider uses the [go-atlassian-cloud](https://github.com/surajrajput1024/go-atlassian-cloud) Go client with a pinned version.
 
-**Repository:** [github.com/surajsinghrajput/terraform-provider-atlassian](https://github.com/surajsinghrajput/terraform-provider-atlassian) · [Contributing](CONTRIBUTING.md)
+**Repository:** [github.com/surajsinghrajput/terraform-provider-atlassian](https://github.com/surajsinghrajput/terraform-provider-atlassian) · **Documentation:** [Terraform Registry](https://registry.terraform.io/providers/surajrajput1024/atlassian/latest/docs) · [Contributing](CONTRIBUTING.md)
 
 ---
 
