@@ -61,6 +61,6 @@ First **stable** release. Scope: Jira projects, permission schemes and grants, p
 - **Data sources:** `atlassian_jira_project`, `atlassian_jira_permission_scheme`, `atlassian_jira_group`, `atlassian_jira_project_permission_scheme`, `atlassian_jira_project_role`, `atlassian_jira_workflow_scheme_attachment`.
 - Provider configuration: `domain`, `email`, `api_token`. Health check on configure via Jira current user endpoint.
 
-[Unreleased]: https://github.com/surajsinghrajput/terraform-provider-atlassian/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/surajsinghrajput/terraform-provider-atlassian/releases/tag/v0.1.0
-[0.0.9]: https://github.com/surajsinghrajput/terraform-provider-atlassian/releases/tag/v0.0.9
+[Unreleased]: https://github.com/surajrajput1024/terraform-provider-atlassian/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/surajrajput1024/terraform-provider-atlassian/releases/tag/v0.1.0
+[0.0.9]: https://github.com/surajrajput1024/terraform-provider-atlassian/releases/tag/v0.0.9

@@ -44,7 +44,7 @@ if [[ -z "${GPG_KEY_ID}" ]]; then
 fi
 
 need_env GITHUB_TOKEN
-GITHUB_OWNER="${GITHUB_OWNER:-surajsinghrajput}"
+GITHUB_OWNER="${GITHUB_OWNER:-surajrajput1024}"
 GITHUB_REPO="${GITHUB_REPO:-terraform-provider-atlassian}"
 
 tmpdir=$(mktemp -d)
